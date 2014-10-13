@@ -1,0 +1,24 @@
+{
+	"name": "simpleformvalidation",
+	"version": "0.1.0",
+	"homepage": "https://github.com/SubZane/simpleformvalidation",
+	"authors": [
+		"Andreas Norman <an@andreasnorman.se>"
+	],
+	"description": "Form Validation made easy",
+	"main": "src/jquery.simpleformvalidation.js",
+	"keywords": [
+		"validation",
+		"jquery",
+		"form",
+		"validate"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules"
+	],
+	"dependencies": {
+		"jquery": "2.x"
+	}
+}
