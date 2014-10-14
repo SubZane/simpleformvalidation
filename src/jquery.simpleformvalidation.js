@@ -121,6 +121,7 @@ var SimpleFormValidator = {
 		$(obj).removeClass('error');
 		$(obj).addClass('valid');
 		this.removeErrorMessage(obj);
+		this.triggerformValidationChange_Event();
 	},
 
 	validateChecked: function(obj) {
@@ -191,16 +192,6 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateURL: function(obj) {
-		var pattern =/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
-		if (pattern.test($(obj).val())) {
-			this.reportSuccess(obj);
-		} else {
-			this.reportError(obj);
-			return true;
-		}
-	},
-
 	validateNumbers: function(obj) {
 		var pattern = /^\d+$/;
 		if (pattern.test($(obj).val())) {
@@ -217,6 +208,17 @@ var SimpleFormValidator = {
 			this.reportSuccess(obj);
 		} else {
 			this.reportError(obj);
+			return true;
+		}
+	},
+
+	validateURL: function(obj) {
+		var pattern =/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+		if (pattern.test($(obj).val())) {
+			this.reportSuccess(obj);
+		} else {
+			this.reportError(obj);
+			return true;
 		}
 	},
 };

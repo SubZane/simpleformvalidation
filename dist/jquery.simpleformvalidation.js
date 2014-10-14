@@ -82,6 +82,51 @@ var SimpleFormValidator = {
 		});
 	},
 
+	reportError: function (obj) {
+		$(obj).data('valid', 'false');
+		$(obj).removeClass('valid');
+		$(obj).addClass('error');
+		this.addErrorMessage(obj);
+		this.form.valid = false;
+		this.triggerformValidationChange_Event();
+	},
+
+	triggerformValidationChange_Event: function () {
+		if (this.form.valid) {
+			$.event.trigger({
+				type: 'formValidationChange',
+				message: 'Form is valid.',
+				time: new Date()
+			});
+		} else {
+			$.event.trigger({
+				type: 'formValidationChange',
+				message: 'Form is not valid.',
+				time: new Date()
+			});
+		}
+	},
+
+	addErrorMessage: function(obj) {
+		if (!$(obj).next(this.options.error_msg_html_tag).length) {
+			var errormsg = this.options.error_msg_html;
+			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
+			$(obj).parent().append(complete_errormsg);
+		}
+	},
+
+	removeErrorMessage: function(obj) {
+		$(obj).next(this.options.error_msg_html_tag).remove();
+	},
+
+	reportSuccess: function (obj) {
+		$(obj).data('valid', 'true');
+		$(obj).removeClass('error');
+		$(obj).addClass('valid');
+		this.removeErrorMessage(obj);
+		this.triggerformValidationChange_Event();
+	},
+
 	validateChecked: function(obj) {
 		if ($(obj).prop('checked')) {
 			this.reportSuccess(obj);
@@ -150,20 +195,6 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateURL: function(obj) {
-		var pattern =/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
-		if (pattern.test($(obj).val())) {
-			this.reportSuccess(obj);
-		} else {
-			this.reportError(obj);
-			return true;
-		}
-	},
-
-
-
-
-
 	validateNumbers: function(obj) {
 		var pattern = /^\d+$/;
 		if (pattern.test($(obj).val())) {
@@ -180,50 +211,17 @@ var SimpleFormValidator = {
 			this.reportSuccess(obj);
 		} else {
 			this.reportError(obj);
+			return true;
 		}
 	},
 
-	reportError: function (obj) {
-		$(obj).data('valid', 'false');
-		$(obj).removeClass('valid');
-		$(obj).addClass('error');
-		this.addErrorMessage(obj);
-		this.form.valid = false;
-		this.triggerformValidationChange_Event();
-	},
-
-	triggerformValidationChange_Event: function () {
-		if (this.form.valid) {
-			$.event.trigger({
-				type: 'formValidationChange',
-				message: 'Form is valid.',
-				time: new Date()
-			});
+	validateURL: function(obj) {
+		var pattern =/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+		if (pattern.test($(obj).val())) {
+			this.reportSuccess(obj);
 		} else {
-			$.event.trigger({
-				type: 'formValidationChange',
-				message: 'Form is not valid.',
-				time: new Date()
-			});
+			this.reportError(obj);
+			return true;
 		}
-	},
-
-	addErrorMessage: function(obj) {
-		if (!$(obj).next(this.options.error_msg_html_tag).length) {
-			var errormsg = this.options.error_msg_html;
-			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
-			$(obj).parent().append(complete_errormsg);
-		}
-	},
-
-	removeErrorMessage: function(obj) {
-		$(obj).next(this.options.error_msg_html_tag).remove();
-	},
-
-	reportSuccess: function (obj) {
-		$(obj).data('valid', 'true');
-		$(obj).removeClass('error');
-		$(obj).addClass('valid');
-		this.removeErrorMessage(obj);
 	},
 };
