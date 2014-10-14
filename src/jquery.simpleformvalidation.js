@@ -3,29 +3,63 @@ var SimpleFormValidator = {
 		error_msg_html_tag: 'span',
 		error_msg_html: '<span class="errormsg">{msg}</span>',
 		container: '.simple-form-validation',
-		validateButton: '.validateButton'
+		postButton: '.simple-post-button',
+		autoValidate: true,
+		onSuccess: function () {
+			return true;
+		},
+		onError: function () {
+			return false;
+		}
 	},
 
 	form: {
 		valid: true
 	},
 
-	init: function (elem) {
+	init: function (options) {
 		// Mix in the passed-in options with the default options
-		//this.options = $.extend({}, this.options, options);
+		this.options = $.extend({}, this.options, options);
 
 		// Save the element reference, both as a jQuery
 		// reference and a normal reference
-		this.elem = elem;
-		this.$elem = $(elem);
+		this.elem = this.options.container;
+		this.$elem = $(this.options.container);
+
+		if (this.options.autoValidate) {
+			this.initAutoValidation();
+		}
+
+		if ($(this.options.postButton).length > 0) {
+			var sfv = this;
+			$(this.options.postButton).on('click', function (evt) {
+				sfv.validateForm();
+			});
+		}
+	},
+
+	initAutoValidation: function() {
+			this.validateOnBlur();
+			this.validateOnChange();
 	},
 
 	validateOnBlur: function() {
 		var sfv = this;
-		var fields = this.$elem.find('[data-role="validate"]');
+		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"]');
 		fields.each(function () {
 			var field = this;
 			$(field).on('blur', function(e) {
+				sfv.validate(this);
+			});
+		});
+	},
+
+	validateOnChange: function() {
+		var sfv = this;
+		var fields = this.$elem.find('input[type=radio][data-role="validate"], [type=checkbox][data-role="validate"]');
+		fields.each(function () {
+			var field = this;
+			$(field).on('change', function(e) {
 				sfv.validate(this);
 			});
 		});
@@ -66,10 +100,22 @@ var SimpleFormValidator = {
 			if (validate === 'radio') {
 				return sfv.validateRadio(field);
 			}
+
+			if (validate === 'alphabet') {
+				return sfv.validateAlphabeticCharacters(field);
+			}
+
+			if (validate === 'alpha-numeric') {
+				return sfv.validateAlphaNumeric(field);
+			}
+
+			if (validate === 'url') {
+				return sfv.validateURL(field);
+			}
 		});
 	},
 
-	validateAll: function () {
+	validateForm: function () {
 		this.form.valid = true;
 		var sfv = this;
 		var fields = this.$elem.find('[data-role="validate"]');
@@ -77,6 +123,12 @@ var SimpleFormValidator = {
 			var field = this;
 			sfv.validate(field);
 		});
+
+		if (this.form.valid) {
+			this.options.onSuccess();
+		} else {
+			this.options.onError();
+		}
 	},
 
 	reportError: function (obj) {
@@ -85,23 +137,6 @@ var SimpleFormValidator = {
 		$(obj).addClass('error');
 		this.addErrorMessage(obj);
 		this.form.valid = false;
-		this.triggerformValidationChange_Event();
-	},
-
-	triggerformValidationChange_Event: function () {
-		if (this.form.valid) {
-			$.event.trigger({
-				type: 'formValidationChange',
-				message: 'Form is valid.',
-				time: new Date()
-			});
-		} else {
-			$.event.trigger({
-				type: 'formValidationChange',
-				message: 'Form is not valid.',
-				time: new Date()
-			});
-		}
 	},
 
 	addErrorMessage: function(obj) {
@@ -121,7 +156,6 @@ var SimpleFormValidator = {
 		$(obj).removeClass('error');
 		$(obj).addClass('valid');
 		this.removeErrorMessage(obj);
-		this.triggerformValidationChange_Event();
 	},
 
 	validateChecked: function(obj) {
@@ -142,7 +176,6 @@ var SimpleFormValidator = {
 			return true;
 		}
 	},
-
 
 	validateMinLength: function (obj) {
 		if ($(obj).data('validate-minimum') <= $(obj).val().length) {
