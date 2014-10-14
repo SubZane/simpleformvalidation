@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<script src="dependencies/jquery/dist/jquery.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+	<script src="../dist/jquery.simpleformvalidation.js"></script>
+	<script>
+		jQuery(document).ready(function($) {
+      SimpleFormValidator.init('.simple-form-validation');
+			SimpleFormValidator.validateOnBlur();
+			$(document).on("formValidationChange", function (evt) {
+				$('.alert-status').html(SimpleFormValidator.form.valid.toString())
+			});
+
+			$('.validateButton').on("click", function (evt) {
+				SimpleFormValidator.validateAll();
+			});
+    });
+	</script>
+
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="styles/style.css">
+	<title>Demo implementation of simplegmaps</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-xs-12 col-sm-12 col-md-push-3">
+				<h1>simple<span>form</span>validation</h1>
+				<h3>Password match and minimum characters</h3>
+
+				<form role="form" class="simple-form-validation" autocomplete="off">
+					<div class="alert alert-info" role="alert">
+						Is form valid? <b class="alert-status">Not sure</b>
+					</div>
+					<div class="form-group">
+						<label for="Password1">Password</label>
+						<input type="password" class="form-control" placeholder="Password" id="fldPassword" data-role="validate" data-validate="length" data-validate-minimum="5" data-validate-error-msg="Error lipsum dolor">
+					</div>
+          <div class="form-group">
+            <label for="Password2">Confirm Password</label>
+            <input type="password" class="form-control" placeholder="Confirm password" data-role="validate" data-validate="confirm:length" data-validate-minimum="5" data-validate-confirmtarget="#fldPassword" data-validate-error-msg="Error lipsum dolor">
+          </div>
+					<div class="form-group">
+						<label for="Password2">Numbers</label>
+						<input type="text" class="form-control" placeholder="Numbers only" data-role="validate" data-validate="numeric" data-validate-error-msg="Error lipsum dolor">
+					</div>
+					<div class="form-group">
+						<label for="Password2">Email</label>
+						<input type="text" class="form-control" placeholder="Email" data-role="validate" data-validate="email" data-validate-error-msg="Error lipsum dolor">
+					</div>
+					<div class="form-group">
+						<label for="Password2">Numbers, max 3</label>
+						<input type="text" class="form-control" placeholder="No more than 3 numbers" data-role="validate" data-validate="numeric:length" data-validate-maximum="3" data-validate-error-msg="Error lipsum dolor">
+					</div>
+
+				 	<div class="checkbox">
+				    <label>
+				      <input type="checkbox" data-role="validate" data-validate="checked" data-validate-error-msg="Error lipsum dolor"> Check me out
+				    </label>
+				  </div>
+
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" data-role="validate" data-validate="radio"  data-validate-error-msg="Error lipsum dolor">
+					    Option one is this and that&mdash;be sure to include why it's great
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+					    Option two can be something else and selecting it will deselect option one
+					  </label>
+					</div>
+					<div class="radio disabled">
+					  <label>
+					    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+					    Option three is
+					  </label>
+					</div>
+
+					<button type="button" class="btn btn-default validateButton">Submit</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

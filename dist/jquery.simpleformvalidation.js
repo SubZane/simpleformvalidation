@@ -1,3 +1,6 @@
+/*! Simple Form Validation - v0.1.0 - 2014-10-14
+* https://github.com/SubZane/simpleformvalidation
+* Copyright (c) 2014 Andreas Norman; Licensed MIT */
 var SimpleFormValidator = {
 	options: {
 		error_msg_html_tag: 'span',
@@ -79,50 +82,6 @@ var SimpleFormValidator = {
 		});
 	},
 
-	reportError: function (obj) {
-		$(obj).data('valid', 'false');
-		$(obj).removeClass('valid');
-		$(obj).addClass('error');
-		this.addErrorMessage(obj);
-		this.form.valid = false;
-		this.triggerformValidationChange_Event();
-	},
-
-	triggerformValidationChange_Event: function () {
-		if (this.form.valid) {
-			$.event.trigger({
-				type: 'formValidationChange',
-				message: 'Form is valid.',
-				time: new Date()
-			});
-		} else {
-			$.event.trigger({
-				type: 'formValidationChange',
-				message: 'Form is not valid.',
-				time: new Date()
-			});
-		}
-	},
-
-	addErrorMessage: function(obj) {
-		if (!$(obj).next(this.options.error_msg_html_tag).length) {
-			var errormsg = this.options.error_msg_html;
-			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
-			$(obj).parent().append(complete_errormsg);
-		}
-	},
-
-	removeErrorMessage: function(obj) {
-		$(obj).next(this.options.error_msg_html_tag).remove();
-	},
-
-	reportSuccess: function (obj) {
-		$(obj).data('valid', 'true');
-		$(obj).removeClass('error');
-		$(obj).addClass('valid');
-		this.removeErrorMessage(obj);
-	},
-
 	validateChecked: function(obj) {
 		if ($(obj).prop('checked')) {
 			this.reportSuccess(obj);
@@ -201,6 +160,10 @@ var SimpleFormValidator = {
 		}
 	},
 
+
+
+
+
 	validateNumbers: function(obj) {
 		var pattern = /^\d+$/;
 		if (pattern.test($(obj).val())) {
@@ -218,5 +181,49 @@ var SimpleFormValidator = {
 		} else {
 			this.reportError(obj);
 		}
+	},
+
+	reportError: function (obj) {
+		$(obj).data('valid', 'false');
+		$(obj).removeClass('valid');
+		$(obj).addClass('error');
+		this.addErrorMessage(obj);
+		this.form.valid = false;
+		this.triggerformValidationChange_Event();
+	},
+
+	triggerformValidationChange_Event: function () {
+		if (this.form.valid) {
+			$.event.trigger({
+				type: 'formValidationChange',
+				message: 'Form is valid.',
+				time: new Date()
+			});
+		} else {
+			$.event.trigger({
+				type: 'formValidationChange',
+				message: 'Form is not valid.',
+				time: new Date()
+			});
+		}
+	},
+
+	addErrorMessage: function(obj) {
+		if (!$(obj).next(this.options.error_msg_html_tag).length) {
+			var errormsg = this.options.error_msg_html;
+			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
+			$(obj).parent().append(complete_errormsg);
+		}
+	},
+
+	removeErrorMessage: function(obj) {
+		$(obj).next(this.options.error_msg_html_tag).remove();
+	},
+
+	reportSuccess: function (obj) {
+		$(obj).data('valid', 'true');
+		$(obj).removeClass('error');
+		$(obj).addClass('valid');
+		this.removeErrorMessage(obj);
 	},
 };
