@@ -9,7 +9,7 @@ I found that many form validation scripts can do amazing things but are also com
 Meet Simple Form Validation
 
 ##Features
-* Direct validation! onBlur and onChange
+* Direct validation! onBlur, onChange and onKeyUp
 * Validates email
 * Validates urls
 * Validates numbers
@@ -90,12 +90,56 @@ To set validation rules on the field you'll first have to decide on one or many 
 * Numbers: `data-validate="numeric"`
 * Alpha numeric characters: `data-validate="alpha-numeric"`
 * Alphabetic characters: `data-validate="alphabet"`
-* Validates minimun length: `data-validate="email"`
-* Validates maximum length: `data-validate="email"`
+* Checkboxes: `data-validate="required"`
+* Radio Groups: `data-validate="radio-group"`
+* Length: `data-validate="length"`
+* Confirm: `data-validate="confirm"`
 
+On validating length you'll need to specify minimum or maximum length
+* Validates minimun length: `data-validate-minimun="1"`
+* Validates maximum length: `data-validate-maximum="10"`
+
+On validating confirm you'll need to specify the input to compare with
+* Confirm: `data-validate-confirmtarget="#fldPassword"`
+
+Example with requirements on length
 ```html
 <div class="form-group">
   <label for="MyField">A pretty field</label>
-  <input type="text" class="form-control" id="MyField" data-role="validate" data-validate="length">
+  <input type="text" class="form-control" id="MyField" data-role="validate" data-validate="length" data-validate-minimun="1" data-validate-maximum="10">
 </div>
 ```
+
+###Error Messages
+The error message for the field must also be set using the attribute `data-validate-error-msg`
+
+Example with radio button group and error messages
+```html
+<div class="form-group">
+  <div class="radio">
+    <label>
+      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" data-role="validate" data-validate="radio-group"  data-validate-error-msg="Error lipsum dolor">
+      Option one is this and that&mdash;be sure to include why it's great
+    </label>
+  </div>
+
+  <div class="radio">
+    <label>
+      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+      Option two can be something else and selecting it will deselect option one
+    </label>
+  </div>
+
+  <div class="radio disabled">
+    <label>
+      <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+      Option three is
+    </label>
+  </div>
+</div>
+```
+
+
+##changelog
+####0.5.0
+First public release.

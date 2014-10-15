@@ -25,7 +25,7 @@
 
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="styles/style.css">
-	<title>Demo implementation of simplegmaps</title>
+	<title>Demo implementation of simpleformvalidation</title>
 </head>
 
 <body>
@@ -65,27 +65,31 @@
 
 				 	<div class="checkbox">
 				    <label>
-				      <input type="checkbox" data-role="validate" data-validate="checked" data-validate-error-msg="Error lipsum dolor"> Check me out
+				      <input type="checkbox" data-role="validate" data-validate="required" data-validate-error-msg="Error lipsum dolor"> Check me out
 				    </label>
 				  </div>
 
-					<div class="radio">
-					  <label>
-					    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" data-role="validate" data-validate="radio"  data-validate-error-msg="Error lipsum dolor">
-					    Option one is this and that&mdash;be sure to include why it's great
-					  </label>
-					</div>
-					<div class="radio">
-					  <label>
-					    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-					    Option two can be something else and selecting it will deselect option one
-					  </label>
-					</div>
-					<div class="radio disabled">
-					  <label>
-					    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-					    Option three is
-					  </label>
+					<div class="form-group">
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" data-role="validate" data-validate="radio-group"  data-validate-error-msg="Error lipsum dolor">
+						    Option one is this and that&mdash;be sure to include why it's great
+						  </label>
+						</div>
+
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+						    Option two can be something else and selecting it will deselect option one
+						  </label>
+						</div>
+
+						<div class="radio disabled">
+						  <label>
+						    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+						    Option three is
+						  </label>
+						</div>
 					</div>
 
 					<button type="button" class="btn btn-default simple-post-button">Submit</button>

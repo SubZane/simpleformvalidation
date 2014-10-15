@@ -41,6 +41,7 @@ var SimpleFormValidator = {
 	initAutoValidation: function() {
 			this.validateOnBlur();
 			this.validateOnChange();
+			this.validateOnKeyUp();
 	},
 
 	validateOnBlur: function() {
@@ -54,14 +55,37 @@ var SimpleFormValidator = {
 		});
 	},
 
+	validateOnKeyUp: function () {
+		var sfv = this;
+		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"]');
+		fields.each(function () {
+			var field = this;
+			$(field).on('keyup', function(e) {
+				if ($(field).hasClass('error') || $(field).hasClass('valid')) {
+					sfv.validate(this);
+				}
+			});
+		});
+	},
+
 	validateOnChange: function() {
 		var sfv = this;
 		var fields = this.$elem.find('input[type=radio][data-role="validate"], [type=checkbox][data-role="validate"]');
 		fields.each(function () {
 			var field = this;
-			$(field).on('change', function(e) {
-				sfv.validate(this);
-			});
+			var siblings = sfv.$elem.find('input[type="radio"][name='+$(field).attr('name')+']');
+			if (siblings.length > 0) {
+				siblings.each(function() {
+					var sibling = this;
+					$(sibling).on('change', function(e) {
+						sfv.validate(field);
+					});
+				});
+			} else {
+				$(field).on('change', function(e) {
+					sfv.validate(this);
+				});
+			}
 		});
 	},
 
@@ -93,11 +117,11 @@ var SimpleFormValidator = {
 				return sfv.validateNumbers(field);
 			}
 
-			if (validate === 'checked') {
+			if (validate === 'required') {
 				return sfv.validateChecked(field);
 			}
 
-			if (validate === 'radio') {
+			if (validate === 'radio-group') {
 				return sfv.validateRadio(field);
 			}
 
@@ -143,12 +167,23 @@ var SimpleFormValidator = {
 		if (!$(obj).next(this.options.error_msg_html_tag).length) {
 			var errormsg = this.options.error_msg_html;
 			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
-			$(obj).parent().append(complete_errormsg);
+
+			var siblings = this.$elem.find('input[type="radio"][name='+$(obj).attr('name')+']');
+			if (siblings.length > 0) {
+				$(siblings[siblings.length-1]).parent().append(complete_errormsg);
+			} else {
+				$(obj).parent().append(complete_errormsg);
+			}
 		}
 	},
 
 	removeErrorMessage: function(obj) {
-		$(obj).next(this.options.error_msg_html_tag).remove();
+		var siblings = this.$elem.find('input[type="radio"][name='+$(obj).attr('name')+']');
+		if (siblings.length > 0) {
+			$(siblings[siblings.length-1]).next(this.options.error_msg_html_tag).remove();
+		} else {
+			$(obj).next(this.options.error_msg_html_tag).remove();
+		}
 	},
 
 	reportSuccess: function (obj) {
