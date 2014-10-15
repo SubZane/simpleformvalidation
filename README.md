@@ -25,6 +25,11 @@ Meet Simple Form Validation
 * Safari 6+
 
 ##Installation
+```
+bower install simpleformvalidation --save
+```
+
+###Setup
 ```html
 <!-- You'll need jquery -->
 <script src="dependencies/jquery/dist/jquery.min.js"></script>
