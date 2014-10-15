@@ -1,4 +1,4 @@
-Simple Form Validation v0.4.0
+Simple Form Validation v0.5.0
 ===========
 
 Simple Form Validation - Add form validation to your web form without knowing much about JavaScript
