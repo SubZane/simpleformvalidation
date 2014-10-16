@@ -157,7 +157,7 @@ var SimpleFormValidator = {
 
 			this.options.onSuccess();
 		} else {
-			this.options.onError();
+			this.options.onError(fields.filter('.error'));
 		}
 	},
 
