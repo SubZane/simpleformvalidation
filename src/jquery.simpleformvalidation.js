@@ -5,6 +5,7 @@ var SimpleFormValidator = {
 		container: '.simple-form-validation',
 		postButton: '.simple-post-button',
 		autoValidate: true,
+		clearOnSuccess: false,
 		onSuccess: function () {
 			return true;
 		},
@@ -149,9 +150,14 @@ var SimpleFormValidator = {
 		});
 
 		if (this.form.valid) {
+
+			if(this.options.clearOnSuccess) {
+				fields.val('').removeClass('valid');
+			}
+
 			this.options.onSuccess();
 		} else {
-			this.options.onError();
+			this.options.onError(fields.filter('.error'));
 		}
 	},
 
