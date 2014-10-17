@@ -47,31 +47,38 @@
 						<input type="password" class="form-control" placeholder="Password" id="fldPassword" data-role="validate" data-validate="length" data-validate-minimum="5" data-validate-error-msg="Error lipsum dolor">
 					</div>
           <div class="form-group">
-            <label for="Password2">Confirm Password</label>
+            <label>Confirm Password</label>
             <input type="password" class="form-control" placeholder="Confirm password" data-role="validate" data-validate="confirm:length" data-validate-minimum="5" data-validate-confirmtarget="#fldPassword" data-validate-error-msg="Error lipsum dolor">
           </div>
 					<div class="form-group">
-						<label for="Password2">Numbers</label>
+						<label>Numbers</label>
 						<input type="text" class="form-control" placeholder="Numbers only" data-role="validate" data-validate="numeric" data-validate-error-msg="Error lipsum dolor">
 					</div>
 					<div class="form-group">
-						<label for="Password2">Email</label>
+						<label>Email</label>
 						<input type="text" class="form-control" placeholder="Email" data-role="validate" data-validate="email" data-validate-error-msg="Error lipsum dolor">
 					</div>
 					<div class="form-group">
-						<label for="Password2">Numbers, max 3</label>
+						<label>Numbers, max 3</label>
 						<input type="text" class="form-control" placeholder="No more than 3 numbers" data-role="validate" data-validate="numeric:length" data-validate-maximum="3" data-validate-error-msg="Error lipsum dolor">
 					</div>
 					<div class="form-group">
-						<label for="Password2">Message</label>
+						<label>Message</label>
 						<textarea name="message" id="message" class="form-control" cols="30" rows="10" data-role="validate" data-validate="length" data-validate-minimum="10" data-validate-error-msg="Error lipsum dolor"></textarea>
 					</div>
 
-				 	<div class="checkbox">
-				    <label>
-				      <input type="checkbox" data-role="validate" data-validate="required" data-validate-error-msg="Error lipsum dolor"> Check me out
-				    </label>
-				  </div>
+					<div class="form-group">
+						<label>Validate against custom regex pattern</label>
+						<input type="text" class="form-control" placeholder="43-05-140-22" data-role="validate" data-validate="pattern" data-validate-pattern="^(\d{2})-(\d{2})-(\d{3})-(\d{2})$" data-validate-error-msg="Not valid">
+					</div>
+
+					<div class="form-group">
+					 	<div class="checkbox">
+					    <label>
+					      <input type="checkbox" data-role="validate" data-validate="required" data-validate-error-msg="Error lipsum dolor"> Check me out
+					    </label>
+					  </div>
+					</div>
 
 					<div class="form-group">
 						<div class="radio">

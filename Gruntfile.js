@@ -58,6 +58,17 @@ module.exports = function (grunt) {
 				tasks: ['jshint:src', 'qunit']
 			},
 		},
+		connect: {
+			server: {
+				options: {
+					protocol: 'http',
+					hostname: '*',
+					port: 8000,
+					base: '',
+					keepalive: true
+				}
+			}
+		}
 	});
 
 	// These plugins provide necessary tasks.
@@ -66,8 +77,13 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 
 	// Default task.
 	grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify']);
+
+		grunt.registerTask('webserver', [
+		'connect'
+	]);
 
 };

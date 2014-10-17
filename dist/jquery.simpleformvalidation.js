@@ -1,4 +1,4 @@
-/*! Simple Form Validation - v0.5.0 - 2014-10-17
+/*! Simple Form Validation - v0.7.0 - 2014-10-17
 * https://github.com/SubZane/simpleformvalidation
 * Copyright (c) 2014 Andreas Norman; Licensed MIT */
 var SimpleFormValidator = {
@@ -42,18 +42,18 @@ var SimpleFormValidator = {
 		}
 	},
 
-	initAutoValidation: function() {
-			this.validateOnBlur();
-			this.validateOnChange();
-			this.validateOnKeyUp();
+	initAutoValidation: function () {
+		this.validateOnBlur();
+		this.validateOnChange();
+		this.validateOnKeyUp();
 	},
 
-	validateOnBlur: function() {
+	validateOnBlur: function () {
 		var sfv = this;
 		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
 			var field = this;
-			$(field).on('blur', function(e) {
+			$(field).on('blur', function (e) {
 				sfv.validate(this);
 			});
 		});
@@ -64,7 +64,7 @@ var SimpleFormValidator = {
 		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
 			var field = this;
-			$(field).on('keyup', function(e) {
+			$(field).on('keyup', function (e) {
 				if ($(field).hasClass('error') || $(field).hasClass('valid')) {
 					sfv.validate(this);
 				}
@@ -72,28 +72,28 @@ var SimpleFormValidator = {
 		});
 	},
 
-	validateOnChange: function() {
+	validateOnChange: function () {
 		var sfv = this;
 		var fields = this.$elem.find('input[type=radio][data-role="validate"], [type=checkbox][data-role="validate"]');
 		fields.each(function () {
 			var field = this;
-			var siblings = sfv.$elem.find('input[type="radio"][name='+$(field).attr('name')+']');
+			var siblings = sfv.$elem.find('input[type="radio"][name=' + $(field).attr('name') + ']');
 			if (siblings.length > 0) {
-				siblings.each(function() {
+				siblings.each(function () {
 					var sibling = this;
-					$(sibling).on('change', function(e) {
+					$(sibling).on('change', function (e) {
 						sfv.validate(field);
 					});
 				});
 			} else {
-				$(field).on('change', function(e) {
+				$(field).on('change', function (e) {
 					sfv.validate(this);
 				});
 			}
 		});
 	},
 
-	validate: function(field) {
+	validate: function (field) {
 		var sfv = this;
 		var validate = $(field).data('validate');
 		var validateArray = validate.split(':');
@@ -122,7 +122,7 @@ var SimpleFormValidator = {
 			}
 
 			if (validate === 'required') {
-				return sfv.validateChecked(field);
+				return sfv.validateRequired(field);
 			}
 
 			if (validate === 'radio-group') {
@@ -140,7 +140,34 @@ var SimpleFormValidator = {
 			if (validate === 'url') {
 				return sfv.validateURL(field);
 			}
+
+			if (validate === 'date') {
+				return sfv.validateDate(field);
+			}
+
+			if (validate === 'dateafter') {
+				return sfv.validateDateAfter(field);
+			}
+
+			if (validate === 'datebefore') {
+				return sfv.validateDateBefore(field);
+			}
+
+			if (validate === 'pattern') {
+				return sfv.validatePattern(field);
+			}
 		});
+	},
+
+	validatePattern: function (obj) {
+		var pattern = new RegExp($(obj).data('validate-pattern'));
+
+		if (pattern.test($(obj).val())) {
+			this.reportSuccess(obj);
+		} else {
+			this.reportError(obj);
+			return true;
+		}
 	},
 
 	validateForm: function () {
@@ -154,7 +181,7 @@ var SimpleFormValidator = {
 
 		if (this.form.valid) {
 
-			if(this.options.clearOnSuccess) {
+			if (this.options.clearOnSuccess) {
 				fields.val('').removeClass('valid');
 			}
 
@@ -172,24 +199,24 @@ var SimpleFormValidator = {
 		this.form.valid = false;
 	},
 
-	addErrorMessage: function(obj) {
+	addErrorMessage: function (obj) {
 		if (!$(obj).next(this.options.error_msg_html_tag).length) {
 			var errormsg = this.options.error_msg_html;
 			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
 
-			var siblings = this.$elem.find('input[type="radio"][name='+$(obj).attr('name')+']');
+			var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
 			if (siblings.length > 0) {
-				$(siblings[siblings.length-1]).parent().append(complete_errormsg);
+				$(siblings[siblings.length - 1]).parent().append(complete_errormsg);
 			} else {
 				$(obj).parent().append(complete_errormsg);
 			}
 		}
 	},
 
-	removeErrorMessage: function(obj) {
-		var siblings = this.$elem.find('input[type="radio"][name='+$(obj).attr('name')+']');
+	removeErrorMessage: function (obj) {
+		var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
 		if (siblings.length > 0) {
-			$(siblings[siblings.length-1]).next(this.options.error_msg_html_tag).remove();
+			$(siblings[siblings.length - 1]).next(this.options.error_msg_html_tag).remove();
 		} else {
 			$(obj).next(this.options.error_msg_html_tag).remove();
 		}
@@ -202,7 +229,7 @@ var SimpleFormValidator = {
 		this.removeErrorMessage(obj);
 	},
 
-	validateChecked: function(obj) {
+	validateRequired: function (obj) {
 		if ($(obj).prop('checked')) {
 			this.reportSuccess(obj);
 		} else {
@@ -211,9 +238,9 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateRadio: function(obj) {
+	validateRadio: function (obj) {
 		var name = $(obj).attr('name');
-		if($('input[type="radio"][name='+name+']:checked').length > 0){
+		if ($('input[type="radio"][name=' + name + ']:checked').length > 0) {
 			this.reportSuccess(obj);
 		} else {
 			this.reportError(obj);
@@ -239,8 +266,8 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateEmail: function(obj) {
-		var pattern =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	validateEmail: function (obj) {
+		var pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if (pattern.test($(obj).val())) {
 			this.reportSuccess(obj);
 		} else {
@@ -249,8 +276,8 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateAlphaNumeric: function(obj) {
-		var pattern =/^[a-zA-Z0-9]+$/;
+	validateAlphaNumeric: function (obj) {
+		var pattern = /^[a-zA-Z0-9]+$/;
 		if (pattern.test($(obj).val())) {
 			this.reportSuccess(obj);
 		} else {
@@ -259,8 +286,8 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateAlphabeticCharacters: function(obj) {
-		var pattern =/^[a-zA-Z]+$/;
+	validateAlphabeticCharacters: function (obj) {
+		var pattern = /^[a-zA-Z]+$/;
 		if (pattern.test($(obj).val())) {
 			this.reportSuccess(obj);
 		} else {
@@ -269,7 +296,7 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateNumbers: function(obj) {
+	validateNumbers: function (obj) {
 		var pattern = /^\d+$/;
 		if (pattern.test($(obj).val())) {
 			this.reportSuccess(obj);
@@ -279,7 +306,7 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateConfirm: function(obj) {
+	validateConfirm: function (obj) {
 		var confirm_target_value = $($(obj).data('validate-confirmtarget')).val();
 		if (confirm_target_value === $(obj).val()) {
 			this.reportSuccess(obj);
@@ -289,8 +316,8 @@ var SimpleFormValidator = {
 		}
 	},
 
-	validateURL: function(obj) {
-		var pattern =/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+	validateURL: function (obj) {
+		var pattern = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 		if (pattern.test($(obj).val())) {
 			this.reportSuccess(obj);
 		} else {
@@ -298,4 +325,12 @@ var SimpleFormValidator = {
 			return true;
 		}
 	},
+
+	isFunction: function (func) {
+		if (typeof func === 'function') {
+			return true;
+		} else {
+			return false;
+		}
+	}
 };

@@ -1,4 +1,4 @@
-Simple Form Validation v0.6.0
+Simple Form Validation v0.7.0
 ===========
 
 Simple Form Validation - Add form validation to your web form without knowing much about JavaScript
@@ -47,6 +47,7 @@ options: {
   container: '.simple-form-validation',
   postButton: '.simple-post-button',
   autoValidate: true,
+  clearOnSuccess: false,
   onSuccess: function () {
     return true;
   },
@@ -92,6 +93,7 @@ To add validation requirements to a field you'll need to add `data-role="validat
 To set validation rules on the field you'll first have to decide on one or many rules
 * Email: `data-validate="email"`
 * Url: `data-validate="url"`
+* Regex pattern: `data-validate="pattern"`
 * Numbers: `data-validate="numeric"`
 * Alpha numeric characters: `data-validate="alpha-numeric"`
 * Alphabetic characters: `data-validate="alphabet"`
@@ -101,7 +103,7 @@ To set validation rules on the field you'll first have to decide on one or many 
 * Confirm: `data-validate="confirm"`
 
 On validating length you'll need to specify minimum or maximum length
-* Validates minimun length: `data-validate-minimun="1"`
+* Validates minimun length: `data-validate-minimum="1"`
 * Validates maximum length: `data-validate-maximum="10"`
 
 On validating confirm you'll need to specify the input to compare with
@@ -111,7 +113,7 @@ Example with requirements on length
 ```html
 <div class="form-group">
   <label for="MyField">A pretty field</label>
-  <input type="text" class="form-control" id="MyField" data-role="validate" data-validate="length" data-validate-minimun="1" data-validate-maximum="10">
+  <input type="text" class="form-control" id="MyField" data-role="validate" data-validate="length" data-validate-minimum="1" data-validate-maximum="10">
 </div>
 ```
 
@@ -146,6 +148,9 @@ Example with radio button group and error messages
 
 
 ##changelog
+####0.7.0
+* Added support for custom regex patterns
+
 ####0.6.0
 * Added support for textareas. Has the same validation options like normal inputs
 * Added new option clearOnSuccess to clear all `.valid` classes when the form validates.
