@@ -1,4 +1,4 @@
-Simple Form Validation v0.5.0
+Simple Form Validation v0.6.0
 ===========
 
 Simple Form Validation - Add form validation to your web form without knowing much about JavaScript
@@ -146,5 +146,10 @@ Example with radio button group and error messages
 
 
 ##changelog
+####0.6.0
+* Added support for textareas. Has the same validation options like normal inputs
+* Added new option clearOnSuccess to clear all `.valid` classes when the form validates.
+* onError no returns fields with validation errors.
+
 ####0.5.0
 First public release.

@@ -47,7 +47,7 @@ var SimpleFormValidator = {
 
 	validateOnBlur: function() {
 		var sfv = this;
-		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"]');
+		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
 			var field = this;
 			$(field).on('blur', function(e) {
@@ -58,7 +58,7 @@ var SimpleFormValidator = {
 
 	validateOnKeyUp: function () {
 		var sfv = this;
-		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"]');
+		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
 			var field = this;
 			$(field).on('keyup', function(e) {
@@ -143,7 +143,7 @@ var SimpleFormValidator = {
 	validateForm: function () {
 		this.form.valid = true;
 		var sfv = this;
-		var fields = this.$elem.find('[data-role="validate"]');
+		var fields = this.$elem.find('input[data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
 			var field = this;
 			sfv.validate(field);

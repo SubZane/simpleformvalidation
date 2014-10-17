@@ -1,4 +1,4 @@
-/*! Simple Form Validation - v0.1.0 - 2014-10-15
+/*! Simple Form Validation - v0.5.0 - 2014-10-17
 * https://github.com/SubZane/simpleformvalidation
 * Copyright (c) 2014 Andreas Norman; Licensed MIT */
 var SimpleFormValidator = {
@@ -8,6 +8,7 @@ var SimpleFormValidator = {
 		container: '.simple-form-validation',
 		postButton: '.simple-post-button',
 		autoValidate: true,
+		clearOnSuccess: false,
 		onSuccess: function () {
 			return true;
 		},
@@ -49,7 +50,7 @@ var SimpleFormValidator = {
 
 	validateOnBlur: function() {
 		var sfv = this;
-		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"]');
+		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
 			var field = this;
 			$(field).on('blur', function(e) {
@@ -60,7 +61,7 @@ var SimpleFormValidator = {
 
 	validateOnKeyUp: function () {
 		var sfv = this;
-		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"]');
+		var fields = this.$elem.find('input[type=text][data-role="validate"], input[type=password][data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
 			var field = this;
 			$(field).on('keyup', function(e) {
@@ -145,16 +146,21 @@ var SimpleFormValidator = {
 	validateForm: function () {
 		this.form.valid = true;
 		var sfv = this;
-		var fields = this.$elem.find('[data-role="validate"]');
+		var fields = this.$elem.find('input[data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
 			var field = this;
 			sfv.validate(field);
 		});
 
 		if (this.form.valid) {
+
+			if(this.options.clearOnSuccess) {
+				fields.val('').removeClass('valid');
+			}
+
 			this.options.onSuccess();
 		} else {
-			this.options.onError();
+			this.options.onError(fields.filter('.error'));
 		}
 	},
 
