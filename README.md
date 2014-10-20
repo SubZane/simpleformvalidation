@@ -1,4 +1,4 @@
-Simple Form Validation v0.7.0
+Simple Form Validation v0.8.0
 ===========
 
 Simple Form Validation - Add form validation to your web form without knowing much about JavaScript
@@ -17,6 +17,7 @@ Meet Simple Form Validation
 * Validates alphabetic characters
 * Validates minimun length
 * Validates maximum length
+* Validates exact length
 
 ##Browser Support
 * Google Chrome
@@ -105,6 +106,7 @@ To set validation rules on the field you'll first have to decide on one or many 
 On validating length you'll need to specify minimum or maximum length
 * Validates minimun length: `data-validate-minimum="1"`
 * Validates maximum length: `data-validate-maximum="10"`
+* Validates exact length: `data-validate-exact="6"`
 
 On validating confirm you'll need to specify the input to compare with
 * Confirm: `data-validate-confirmtarget="#fldPassword"`
@@ -148,6 +150,9 @@ Example with radio button group and error messages
 
 
 ##changelog
+####0.8.0
+* Added support for exact length
+
 ####0.7.0
 * Added support for custom regex patterns
 

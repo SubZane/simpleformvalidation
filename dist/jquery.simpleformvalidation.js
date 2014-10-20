@@ -1,4 +1,4 @@
-/*! Simple Form Validation - v0.7.0 - 2014-10-17
+/*! Simple Form Validation - v0.8.0 - 2014-10-20
 * https://github.com/SubZane/simpleformvalidation
 * Copyright (c) 2014 Andreas Norman; Licensed MIT */
 var SimpleFormValidator = {
@@ -106,6 +106,9 @@ var SimpleFormValidator = {
 				}
 				if ($(field).data('validate-maximum')) {
 					return sfv.validateMaxLength(field);
+				}
+				if ($(field).data('validate-exact')) {
+					return sfv.validateExactLength(field);
 				}
 			}
 
@@ -241,6 +244,15 @@ var SimpleFormValidator = {
 	validateRadio: function (obj) {
 		var name = $(obj).attr('name');
 		if ($('input[type="radio"][name=' + name + ']:checked').length > 0) {
+			this.reportSuccess(obj);
+		} else {
+			this.reportError(obj);
+			return true;
+		}
+	},
+
+	validateExactLength: function (obj) {
+		if ($(obj).data('validate-exact') === $(obj).val().length) {
 			this.reportSuccess(obj);
 		} else {
 			this.reportError(obj);
