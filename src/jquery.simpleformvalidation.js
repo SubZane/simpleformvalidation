@@ -141,18 +141,6 @@ var SimpleFormValidator = {
 				return sfv.validateURL(field);
 			}
 
-			if (validate === 'date') {
-				return sfv.validateDate(field);
-			}
-
-			if (validate === 'dateafter') {
-				return sfv.validateDateAfter(field);
-			}
-
-			if (validate === 'datebefore') {
-				return sfv.validateDateBefore(field);
-			}
-
 			if (validate === 'pattern') {
 				return sfv.validatePattern(field);
 			}
