@@ -1,4 +1,4 @@
-Simple Form Validation v0.8.0
+Simple Form Validation v0.9.0
 ===========
 
 Simple Form Validation - Add form validation to your web form without knowing much about JavaScript
@@ -48,6 +48,7 @@ options: {
   container: '.simple-form-validation',
   postButton: '.simple-post-button',
   autoValidate: true,
+  icheck: false,
   clearOnSuccess: false,
   onSuccess: function () {
     return true;
@@ -55,13 +56,18 @@ options: {
   onError: function () {
     return false;
   }
+  onComplete: function () {
+    return true;
+  }
 };
 ```
 * `container`: The ID or classname of the container holding your form elements. Doesn't have to be a form.
 * `postButton`: ID or classname of the button to pose a validate form and submit button.
 * `autoValidate`: Default true. When true, the form will validate each field as you type and leave it.
+* `icheck`: Default false. When true, the error message position will change to support icheck.
 * `onSuccess`: What to do when all fields are valid.
 * `onError`: What to do when one or many fields aren't valid.
+* `onComplete`: What to do just before onSuccess and before onError.
 
 ###Typical setup
 This could be your typical script setup for a simple email form.
@@ -150,6 +156,11 @@ Example with radio button group and error messages
 
 
 ##changelog
+####0.9.0
+* Changed validation control to also include a check on a data-attribute on the container. ```data-formvalid="true"``` and ```data-formvalid="false"```. It is now possible to force a true or false state on the form by externaly changning this value.
+* Added support for [iCheck](http://fronteed.com/iCheck/)
+* Added anonymous function ```onComplete``` that always will execute before onError and before onSuccess.
+
 ####0.8.0
 * Added support for exact length
 

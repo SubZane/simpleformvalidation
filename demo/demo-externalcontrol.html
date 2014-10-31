@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<script src="dependencies/jquery/dist/jquery.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+	<script src="../dist/jquery.simpleformvalidation.js"></script>
+	<script>
+		jQuery(document).ready(function($) {
+			$('.force-valid-button').on('click', function (evt) {
+				$('.simple-form-validation').data('formvalid', true);
+			});
+
+			$('.force-invalid-button').on('click', function (evt) {
+				$('.simple-form-validation').data('formvalid', false);
+			});
+
+			$('.force-remove-button').on('click', function (evt) {
+				$('.simple-form-validation').removeData('formvalid');
+			});
+
+      SimpleFormValidator.init({
+				container: '.simple-form-validation',
+				postButton: '.simple-post-button',
+				autoValidate: true,
+				onSuccess: function () {
+					$('.alert-success').removeClass('hidden');
+					$('.alert-danger').addClass('hidden');
+				},
+				onError: function () {
+					$('.alert-danger').removeClass('hidden');
+					$('.alert-success').addClass('hidden');
+				}
+			});
+    });
+	</script>
+
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="styles/style.css">
+	<title>Demo implementation of simpleformvalidation</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-xs-12 col-sm-12 col-md-push-3">
+				<h1>simple<span>form</span>validation</h1>
+				<h3>Password match and minimum characters</h3>
+
+				<form role="form" class="simple-form-validation" autocomplete="off">
+					<div class="alert alert-success hidden" role="alert">
+						Success! Form is valid!
+					</div>
+					<div class="alert alert-danger hidden" role="alert">
+						Error! Form is not valid!
+					</div>
+					<div class="form-group">
+						<label for="Password1">Password</label>
+						<input type="password" class="form-control" placeholder="Password" id="fldPassword" data-role="validate" data-validate="length" data-validate-minimum="5" data-validate-error-msg="Error lipsum dolor">
+					</div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" class="form-control" placeholder="Confirm password" data-role="validate" data-validate="confirm:length" data-validate-minimum="5" data-validate-confirmtarget="#fldPassword" data-validate-error-msg="Error lipsum dolor">
+          </div>
+
+					<button type="button" class="btn btn-default simple-post-button">Submit</button>
+					<button type="button" class="btn btn-default force-valid-button btn-success">Force form valid</button>
+					<button type="button" class="btn btn-default force-invalid-button btn-danger">Force form invalid</button>
+					<button type="button" class="btn btn-default force-remove-button btn-info">Remove forced status</button>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

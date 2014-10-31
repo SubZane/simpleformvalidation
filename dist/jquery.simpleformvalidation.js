@@ -1,4 +1,4 @@
-/*! Simple Form Validation - v0.8.0 - 2014-10-20
+/*! Simple Form Validation - v0.9.0 - 2014-10-31
 * https://github.com/SubZane/simpleformvalidation
 * Copyright (c) 2014 Andreas Norman; Licensed MIT */
 var SimpleFormValidator = {
@@ -8,12 +8,16 @@ var SimpleFormValidator = {
 		container: '.simple-form-validation',
 		postButton: '.simple-post-button',
 		autoValidate: true,
+		icheck: false,
 		clearOnSuccess: false,
 		onSuccess: function () {
 			return true;
 		},
 		onError: function () {
 			return false;
+		},
+		onComplete: function () {
+			return true;
 		}
 	},
 
@@ -29,6 +33,8 @@ var SimpleFormValidator = {
 		// reference and a normal reference
 		this.elem = this.options.container;
 		this.$elem = $(this.options.container);
+
+		this.setFormValididationStatus(false);
 
 		if (this.options.autoValidate) {
 			this.initAutoValidation();
@@ -162,7 +168,7 @@ var SimpleFormValidator = {
 	},
 
 	validateForm: function () {
-		this.form.valid = true;
+		this.setFormValididationStatus(true);
 		var sfv = this;
 		var fields = this.$elem.find('input[data-role="validate"], textarea[data-role="validate"]');
 		fields.each(function () {
@@ -170,14 +176,15 @@ var SimpleFormValidator = {
 			sfv.validate(field);
 		});
 
-		if (this.form.valid) {
-
+		if (this.isFormValid()) {
 			if (this.options.clearOnSuccess) {
 				fields.val('').removeClass('valid');
+				fields.val('').removeClass('error');
 			}
-
+			this.options.onComplete();
 			this.options.onSuccess();
 		} else {
+			this.options.onComplete();
 			this.options.onError(fields.filter('.error'));
 		}
 	},
@@ -187,7 +194,29 @@ var SimpleFormValidator = {
 		$(obj).removeClass('valid');
 		$(obj).addClass('error');
 		this.addErrorMessage(obj);
-		this.form.valid = false;
+		this.setFormValididationStatus(false);
+	},
+
+	isFormValid: function() {
+		if (typeof $(this.options.container).data('formvalid') !== 'undefined') {
+			if ($(this.options.container).data('formvalid') === true) {
+				this.setFormValididationStatus(true);
+				return true;
+			} else {
+				this.setFormValididationStatus(false);
+				return false;
+			}
+		} else {
+			if (this.form.valid === true) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	},
+
+	setFormValididationStatus: function (valid) {
+		this.form.valid = valid;
 	},
 
 	addErrorMessage: function (obj) {
@@ -197,9 +226,17 @@ var SimpleFormValidator = {
 
 			var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
 			if (siblings.length > 0) {
-				$(siblings[siblings.length - 1]).parent().append(complete_errormsg);
+				if (this.options.icheck === true) {
+					$(siblings[siblings.length - 1]).parent().parent().parent().parent().append(complete_errormsg);
+				} else {
+					$(siblings[siblings.length - 1]).parent().append(complete_errormsg);
+				}
 			} else {
-				$(obj).parent().append(complete_errormsg);
+				if (this.options.icheck === true) {
+					$(obj).parent().parent().parent().parent().append(complete_errormsg);
+				} else {
+					$(obj).parent().append(complete_errormsg);
+				}
 			}
 		}
 	},

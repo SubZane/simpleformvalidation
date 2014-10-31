@@ -29,6 +29,11 @@ input.valid {
   border-color: green;
 }
 
+button.error,button.error:focus, button.error:active, button.error:hover {
+  background-color: red;
+  color: white;
+}
+
 span.errormsg {
   font-weight: bold;
 font-size: 12px;

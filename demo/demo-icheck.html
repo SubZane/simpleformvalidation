@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<script src="dependencies/jquery/dist/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.1/icheck.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+	<script src="../dist/jquery.simpleformvalidation.js"></script>
+	<script>
+		jQuery(document).ready(function($) {
+			$('input').iCheck({
+				checkboxClass: 'icheckbox_minimal-blue',
+				radioClass: 'iradio_minimal-blue'
+			});
+
+      SimpleFormValidator.init({
+				container: '.simple-form-validation',
+				postButton: '.simple-post-button',
+				icheck: true,
+				autoValidate: true,
+				onSuccess: function () {
+					$('.alert-success').removeClass('hidden');
+					$('.alert-danger').addClass('hidden');
+				},
+				onError: function () {
+					$('.alert-danger').removeClass('hidden');
+					$('.alert-success').addClass('hidden');
+				}
+			});
+    });
+	</script>
+
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.1/skins/all.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.1/skins/minimal/blue.css">
+	<link rel="stylesheet" href="styles/style.css">
+	<style>
+		.radio, .checkbox {
+			padding-left: 0px;
+		}
+		.icheckbox_minimal-blue, .iradio_minimal-blue {
+			margin-right: 10px;
+		}
+	</style>
+	<title>Demo implementation of simpleformvalidation</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-xs-12 col-sm-12 col-md-push-3">
+				<h1>simple<span>form</span>validation</h1>
+				<h3>Password match and minimum characters</h3>
+
+				<form role="form" class="simple-form-validation" autocomplete="off">
+					<div class="alert alert-success hidden" role="alert">
+						Success! Form is valid!
+					</div>
+					<div class="alert alert-danger hidden" role="alert">
+						Error! Form is not valid!
+					</div>
+
+					<div class="form-group">
+					 	<div class="checkbox">
+					    <label>
+					      <input type="checkbox" data-role="validate" data-validate="required" data-validate-error-msg="Error lipsum dolor"> Check me out
+					    </label>
+					  </div>
+					</div>
+
+					<div class="form-group">
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" data-role="validate" data-validate="radio-group"  data-validate-error-msg="Error lipsum dolor">
+						    Option one is this and that&mdash;be sure to include why it's great
+						  </label>
+						</div>
+
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+						    Option two can be something else and selecting it will deselect option one
+						  </label>
+						</div>
+
+						<div class="radio disabled">
+						  <label>
+						    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+						    Option three is
+						  </label>
+						</div>
+					</div>
+
+					<button type="button" class="btn btn-default simple-post-button">Submit</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
