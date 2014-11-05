@@ -1,4 +1,4 @@
-/*! Simple Form Validation - v0.9.0 - 2014-10-31
+/*! Simple Form Validation - v0.9.1 - 2014-11-05
 * https://github.com/SubZane/simpleformvalidation
 * Copyright (c) 2014 Andreas Norman; Licensed MIT */
 var SimpleFormValidator = {
@@ -220,6 +220,7 @@ var SimpleFormValidator = {
 	},
 
 	addErrorMessage: function (obj) {
+		this.removeErrorMessage(obj);
 		if (!$(obj).next(this.options.error_msg_html_tag).length) {
 			var errormsg = this.options.error_msg_html;
 			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
@@ -244,9 +245,18 @@ var SimpleFormValidator = {
 	removeErrorMessage: function (obj) {
 		var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
 		if (siblings.length > 0) {
-			$(siblings[siblings.length - 1]).next(this.options.error_msg_html_tag).remove();
+			if (this.options.icheck === true) {
+				$(siblings[siblings.length - 1]).parent().parent().parent().next(this.options.error_msg_html_tag).remove();
+			} else {
+				$(siblings[siblings.length - 1]).next(this.options.error_msg_html_tag).remove();
+			}
 		} else {
-			$(obj).next(this.options.error_msg_html_tag).remove();
+			if (this.options.icheck === true) {
+				$(obj).parent().parent().parent().next(this.options.error_msg_html_tag).remove();
+			} else {
+				$(obj).next(this.options.error_msg_html_tag).remove();
+			}
+
 		}
 	},
 

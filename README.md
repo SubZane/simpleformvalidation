@@ -1,4 +1,4 @@
-Simple Form Validation v0.9.0
+Simple Form Validation v0.9.1
 ===========
 
 Simple Form Validation - Add form validation to your web form without knowing much about JavaScript
@@ -156,6 +156,9 @@ Example with radio button group and error messages
 
 
 ##changelog
+####0.9.1
+* Fixed bug with appending error messages. Error messages will now clear between every check.
+
 ####0.9.0
 * Changed validation control to also include a check on a data-attribute on the container. ```data-formvalid="true"``` and ```data-formvalid="false"```. It is now possible to force a true or false state on the form by externaly changning this value.
 * Added support for [iCheck](http://fronteed.com/iCheck/)

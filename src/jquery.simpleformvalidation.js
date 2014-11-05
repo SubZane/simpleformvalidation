@@ -217,6 +217,7 @@ var SimpleFormValidator = {
 	},
 
 	addErrorMessage: function (obj) {
+		this.removeErrorMessage(obj);
 		if (!$(obj).next(this.options.error_msg_html_tag).length) {
 			var errormsg = this.options.error_msg_html;
 			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
@@ -241,9 +242,18 @@ var SimpleFormValidator = {
 	removeErrorMessage: function (obj) {
 		var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
 		if (siblings.length > 0) {
-			$(siblings[siblings.length - 1]).next(this.options.error_msg_html_tag).remove();
+			if (this.options.icheck === true) {
+				$(siblings[siblings.length - 1]).parent().parent().parent().next(this.options.error_msg_html_tag).remove();
+			} else {
+				$(siblings[siblings.length - 1]).next(this.options.error_msg_html_tag).remove();
+			}
 		} else {
-			$(obj).next(this.options.error_msg_html_tag).remove();
+			if (this.options.icheck === true) {
+				$(obj).parent().parent().parent().next(this.options.error_msg_html_tag).remove();
+			} else {
+				$(obj).next(this.options.error_msg_html_tag).remove();
+			}
+
 		}
 	},
 
