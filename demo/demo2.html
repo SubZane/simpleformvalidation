@@ -60,36 +60,24 @@
 						Error! Form is not valid!
 					</div>
 
-					<div class="form-group">
-					 	<div class="checkbox">
-					    <label>
-					      <input type="checkbox" data-role="validate" id="icheckbox" data-validate="required" data-validate-error-msg="Error lipsum dolor"> Check me out
-					    </label>
-					  </div>
-					</div>
-
-					<div class="form-group">
-						<div class="radio">
-						  <label>
-						    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" data-role="validate" data-validate="radio-group"  data-validate-error-msg="Error lipsum dolor">
-						    Option one is this and that&mdash;be sure to include why it's great
-						  </label>
+					<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-6">
+								<div class="form-group">
+									<label for="firstname">Förnamn</label>
+									<input type="text" id="firstnamee" name="firstname" class="form-control" data-role="validate" data-validate="length" data-validate-minimum="2" data-validate-maximum="80" data-validate-error-msg="Error lipsum dolor"/>
+								</div>
+								<div class="form-group">
+									<label>Numbers</label>
+									<input type="text" class="form-control" placeholder="Numbers only" data-role="validate" data-validate="numeric" data-validate-error-msg="Error lipsum dolor">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-6">
+								<div class="form-group">
+									<label for="lastname">Efternamn</label>
+									<input type="text" id="lastname" name="lastname" class="form-control" data-role="validate" data-validate="length" data-validate-minimum="2" data-validate-maximum="80" data-validate-error-msg="Error lipsum dolor"/>
+								</div>
+							</div>
 						</div>
-
-						<div class="radio">
-						  <label>
-						    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-						    Option two can be something else and selecting it will deselect option one
-						  </label>
-						</div>
-
-						<div class="radio">
-						  <label>
-						    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-						    Option three is
-						  </label>
-						</div>
-					</div>
 
 					<button type="button" class="btn btn-default simple-post-button">Submit</button>
 				</form>

@@ -1,10 +1,10 @@
-/*! Simple Form Validation - v0.9.1 - 2014-11-05
+/*! Simple Form Validation - v0.9.2 - 2014-11-14
 * https://github.com/SubZane/simpleformvalidation
 * Copyright (c) 2014 Andreas Norman; Licensed MIT */
 var SimpleFormValidator = {
 	options: {
 		error_msg_html_tag: 'span',
-		error_msg_html: '<span class="errormsg">{msg}</span>',
+		error_msg_html: '<span class="errormsg" data-guid="{guid}">{msg}</span>',
 		container: '.simple-form-validation',
 		postButton: '.simple-post-button',
 		autoValidate: true,
@@ -53,6 +53,13 @@ var SimpleFormValidator = {
 		this.validateOnChange();
 		this.validateOnKeyUp();
 	},
+	getGuid: function() {
+		var strguid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+			return v.toString(16);
+		});
+		return strguid;
+	},
 
 	validateOnBlur: function () {
 		var sfv = this;
@@ -79,22 +86,38 @@ var SimpleFormValidator = {
 	},
 
 	validateOnChange: function () {
-		var sfv = this;
+		var _self = this;
 		var fields = this.$elem.find('input[type=radio][data-role="validate"], [type=checkbox][data-role="validate"]');
 		fields.each(function () {
 			var field = this;
-			var siblings = sfv.$elem.find('input[type="radio"][name=' + $(field).attr('name') + ']');
-			if (siblings.length > 0) {
-				siblings.each(function () {
-					var sibling = this;
-					$(sibling).on('change', function (e) {
-						sfv.validate(field);
+
+			var siblings = _self.$elem.find('input[type="radio"][name=' + $(field).attr('name') + ']');
+			if (_self.options.icheck === true) {
+				if (siblings.length > 0) {
+					siblings.each(function () {
+						var sibling = this;
+						$(sibling).on('ifChanged', function (e) {
+							_self.validate(field);
+						});
 					});
-				});
+				} else {
+					$(field).on('ifChanged', function (e) {
+						_self.validate(this);
+					});
+				}
 			} else {
-				$(field).on('change', function (e) {
-					sfv.validate(this);
-				});
+				if (siblings.length > 0) {
+					siblings.each(function () {
+						var sibling = this;
+						$(sibling).on('change', function (e) {
+							_self.validate(field);
+						});
+					});
+				} else {
+					$(field).on('change', function (e) {
+						_self.validate(this);
+					});
+				}
 			}
 		});
 	},
@@ -220,43 +243,43 @@ var SimpleFormValidator = {
 	},
 
 	addErrorMessage: function (obj) {
-		this.removeErrorMessage(obj);
-		if (!$(obj).next(this.options.error_msg_html_tag).length) {
-			var errormsg = this.options.error_msg_html;
-			var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
+		if ($(obj).data('error-guid')) {
+			return;
+		} else {
+			if (!$(obj).next(this.options.error_msg_html_tag).length) {
+				var guid = this.getGuid();
+				$(obj).data('error-guid', guid);
+				var errormsg = this.options.error_msg_html;
+				var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg')).replace('{guid}', guid);
 
-			var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
-			if (siblings.length > 0) {
+				var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
 				if (this.options.icheck === true) {
-					$(siblings[siblings.length - 1]).parent().parent().parent().parent().append(complete_errormsg);
+					if (siblings.length > 0) {
+						$(siblings[siblings.length - 1]).parent().parent().parent().parent().append(complete_errormsg);
+					} else {
+						// With icheck enabled and checkboxes we will need to step back som parents. However not for normal inputs 
+						if ($(obj).is(':checkbox')) {
+							$(obj).parent().parent().parent().parent().append(complete_errormsg);
+						} else {
+							$(obj).parent().append(complete_errormsg);
+						}
+					}
 				} else {
-					$(siblings[siblings.length - 1]).parent().append(complete_errormsg);
-				}
-			} else {
-				if (this.options.icheck === true) {
-					$(obj).parent().parent().parent().parent().append(complete_errormsg);
-				} else {
-					$(obj).parent().append(complete_errormsg);
+					if (siblings.length > 0) {
+						$(siblings[siblings.length - 1]).parent().append(complete_errormsg);
+					} else {
+						$(obj).parent().append(complete_errormsg);
+					}
 				}
 			}
 		}
 	},
 
 	removeErrorMessage: function (obj) {
-		var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
-		if (siblings.length > 0) {
-			if (this.options.icheck === true) {
-				$(siblings[siblings.length - 1]).parent().parent().parent().next(this.options.error_msg_html_tag).remove();
-			} else {
-				$(siblings[siblings.length - 1]).next(this.options.error_msg_html_tag).remove();
-			}
-		} else {
-			if (this.options.icheck === true) {
-				$(obj).parent().parent().parent().next(this.options.error_msg_html_tag).remove();
-			} else {
-				$(obj).next(this.options.error_msg_html_tag).remove();
-			}
-
+		if ($(obj).data('error-guid')) {
+			var guid = $(obj).data('error-guid');
+			$(this.options.container).find('[data-guid="' + guid + '"]').remove();
+			$(obj).removeData('error-guid');
 		}
 	},
 

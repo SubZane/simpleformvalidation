@@ -1,4 +1,4 @@
-Simple Form Validation v0.9.1
+Simple Form Validation v0.9.2
 ===========
 
 Simple Form Validation - Add form validation to your web form without knowing much about JavaScript
@@ -156,6 +156,10 @@ Example with radio button group and error messages
 
 
 ##changelog
+####0.9.2
+* Fixed bug with error message positions when icheck was enabled.
+* Optimized error message removals with guids. No longer will all error messages be removed and added over and over again.
+
 ####0.9.1
 * Fixed bug with appending error messages. Error messages will now clear between every check.
 
