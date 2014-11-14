@@ -1,7 +1,7 @@
 var SimpleFormValidator = {
 	options: {
 		error_msg_html_tag: 'span',
-		error_msg_html: '<span class="errormsg" data-guid="{guid}">{msg}</span>',
+		error_msg_html: '<span class="errormsg">{msg}</span>',
 		container: '.simple-form-validation',
 		postButton: '.simple-post-button',
 		autoValidate: true,
@@ -247,25 +247,27 @@ var SimpleFormValidator = {
 				var guid = this.getGuid();
 				$(obj).data('error-guid', guid);
 				var errormsg = this.options.error_msg_html;
-				var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg')).replace('{guid}', guid);
+				var complete_errormsg = errormsg.replace('{msg}', $(obj).data('validate-error-msg'));
+				var errorElement = $.parseHTML(complete_errormsg);
+				$(errorElement).attr('data-guid', guid);
 
 				var siblings = this.$elem.find('input[type="radio"][name=' + $(obj).attr('name') + ']');
 				if (this.options.icheck === true) {
 					if (siblings.length > 0) {
-						$(siblings[siblings.length - 1]).parent().parent().parent().parent().append(complete_errormsg);
+						$(siblings[siblings.length - 1]).parent().parent().parent().parent().append(errorElement);
 					} else {
-						// With icheck enabled and checkboxes we will need to step back som parents. However not for normal inputs 
+						// With icheck enabled and checkboxes we will need to step back som parents. However not for normal inputs
 						if ($(obj).is(':checkbox')) {
-							$(obj).parent().parent().parent().parent().append(complete_errormsg);
+							$(obj).parent().parent().parent().parent().append(errorElement);
 						} else {
-							$(obj).parent().append(complete_errormsg);
+							$(obj).parent().append(errorElement);
 						}
 					}
 				} else {
 					if (siblings.length > 0) {
-						$(siblings[siblings.length - 1]).parent().append(complete_errormsg);
+						$(siblings[siblings.length - 1]).parent().append(errorElement);
 					} else {
-						$(obj).parent().append(complete_errormsg);
+						$(obj).parent().append(errorElement);
 					}
 				}
 			}
