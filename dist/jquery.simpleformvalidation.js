@@ -1,6 +1,6 @@
-/*! Simple Form Validation - v0.9.2 - 2014-11-14
+/*! Simple Form Validation - v0.9.3 - 2018-06-26
 * https://github.com/SubZane/simpleformvalidation
-* Copyright (c) 2014 Andreas Norman; Licensed MIT */
+* Copyright (c) 2018 Andreas Norman; Licensed MIT */
 var SimpleFormValidator = {
 	options: {
 		error_msg_html_tag: 'span',

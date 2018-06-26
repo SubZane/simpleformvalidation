@@ -4,7 +4,6 @@
 	<meta charset="utf-8">
 	<script src="dependencies/jquery/dist/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.1/icheck.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
 	<script src="../dist/jquery.simpleformvalidation.js"></script>
 	<script>
 		jQuery(document).ready(function($) {
@@ -63,19 +62,15 @@
 					<div class="row">
 							<div class="col-xs-12 col-sm-6 col-md-6">
 								<div class="form-group">
-									<label for="firstname">Förnamn</label>
-									<input type="text" id="firstnamee" name="firstname" class="form-control" data-role="validate" data-validate="length" data-validate-minimum="2" data-validate-maximum="80" data-validate-error-msg="Error lipsum dolor"/>
-								</div>
-								<div class="form-group">
 									<label>Numbers</label>
 									<input type="text" class="form-control" placeholder="Numbers only" data-role="validate" data-validate="numeric" data-validate-error-msg="Error lipsum dolor">
 								</div>
-							</div>
-							<div class="col-xs-12 col-sm-6 col-md-6">
+
 								<div class="form-group">
-									<label for="lastname">Efternamn</label>
-									<input type="text" id="lastname" name="lastname" class="form-control" data-role="validate" data-validate="length" data-validate-minimum="2" data-validate-maximum="80" data-validate-error-msg="Error lipsum dolor"/>
+									<label>Multiple</label>
+									<input type="text" class="form-control" data-role="validate" data-validate="length:pattern" data-validate-pattern="^[a-zA-Z0-9]+$" data-validate-minimum="10" data-validate-error-msg="Not valid">
 								</div>
+
 							</div>
 						</div>
 

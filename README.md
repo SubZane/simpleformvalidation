@@ -3,12 +3,12 @@ Simple Form Validation v0.9.3
 
 Simple Form Validation - Add form validation to your web form without knowing much about JavaScript
 
-##Background
+## Background
 I found that many form validation scripts can do amazing things but are also complicated to use because of it. I wanted a script that does the basics and is easy to install and use with frameworks such as bootstrap.
 
 Meet Simple Form Validation
 
-##Features
+## Features
 * Direct validation! onBlur, onChange and onKeyUp
 * Validates email
 * Validates urls
@@ -19,30 +19,30 @@ Meet Simple Form Validation
 * Validates maximum length
 * Validates exact length
 
-##Browser Support
+## Browser Support
 * Google Chrome
 * Internet Explorer 8+
 * Firefox
 * Safari 6+
 
-##Installation
+## Installation
 ```
 bower install simpleformvalidation --save
 ```
 
-###Setup
+### Setup
 ```html
 <!-- You'll need jquery -->
 <script src="dependencies/jquery/dist/jquery.min.js"></script>
 <!-- and you'll need to include simplegmaps of course! -->
 <script src="../src/jquery.simpleformvalidation.js"></script>
 ```
-##Usage
+## Usage
 ```javascript
 $('#id_of_your_div').simplegmaps();
 ```
 
-###Settings and Defaults
+### Settings and Defaults
 ```javascript
 options: {
   container: '.simple-form-validation',
@@ -69,7 +69,7 @@ options: {
 * `onError`: What to do when one or many fields aren't valid.
 * `onComplete`: What to do just before onSuccess and before onError.
 
-###Typical setup
+### Typical setup
 This could be your typical script setup for a simple email form.
 
 ```javascript
@@ -88,7 +88,7 @@ jQuery(document).ready(function($) {
 });
 ```
 
-###How to add validation to a field
+### How to add validation to a field
 To add validation requirements to a field you'll need to add `data-role="validate"`
 ```html
 <div class="form-group">
@@ -125,7 +125,7 @@ Example with requirements on length
 </div>
 ```
 
-###Error Messages
+### Error Messages
 The error message for the field must also be set using the attribute `data-validate-error-msg`
 
 Example with radio button group and error messages
@@ -155,29 +155,32 @@ Example with radio button group and error messages
 ```
 
 
-##changelog
-####0.9.3
+## changelog
+#### 0.9.4
+* Minor updates to code base
+
+#### 0.9.3
 * Fixed bug with error message positions when icheck was enabled.
 * Optimized error message removals with guids. No longer will all error messages be removed and added over and over again.
 
-####0.9.1
+#### 0.9.1
 * Fixed bug with appending error messages. Error messages will now clear between every check.
 
-####0.9.0
+#### 0.9.0
 * Changed validation control to also include a check on a data-attribute on the container. ```data-formvalid="true"``` and ```data-formvalid="false"```. It is now possible to force a true or false state on the form by externaly changning this value.
 * Added support for [iCheck](http://fronteed.com/iCheck/)
 * Added anonymous function ```onComplete``` that always will execute before onError and before onSuccess.
 
-####0.8.0
+#### 0.8.0
 * Added support for exact length
 
-####0.7.0
+#### 0.7.0
 * Added support for custom regex patterns
 
-####0.6.0
+#### 0.6.0
 * Added support for textareas. Has the same validation options like normal inputs
 * Added new option clearOnSuccess to clear all `.valid` classes when the form validates.
 * onError no returns fields with validation errors.
 
-####0.5.0
+#### 0.5.0
 First public release.
